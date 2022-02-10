@@ -7,7 +7,7 @@ import axios from "axios";
 axios
   .get("https://api.github.com/users/AnthonyLayne")
   .then((resp) => {
-    console.log(resp.data);
+    document.querySelector(".cards").appendChild(githubCard(resp.data));
   })
   .catch((err) => console.error(err));
 /*
@@ -35,12 +35,12 @@ axios
 */
 
 const followersArray = [];
-function githubCard(gitHubInfo) {
+function githubCard(gitInfo) {
   const card = document.createElement("div");
   const img = document.createElement("img");
-  const info = document.createElement("div");
+  const cardInfo = document.createElement("div");
   const name = document.createElement("h3");
-  const userName = document.createElement("p");
+  const username = document.createElement("p");
   const location = document.createElement("p");
   const profile = document.createElement("p");
   const pLink = document.createElement("a");
@@ -49,15 +49,28 @@ function githubCard(gitHubInfo) {
   const bio = document.createElement("p");
 
   img.src = gitHubInfo.avatar_url;
-  name.textContent = gitHubInfo.name;
-  userName.textContent = gitHubInfo.login;
-  location.textContent = gitHubInfo.location;
+  name.textContent = gitInfo.name;
+  username.textContent = gitInfo.login;
+  location.textContent = gitInfo.location;
   profile.textContent = "Profile";
   pLink.textContent = "Link to Profile";
-  pLink.href = gitHubInfo.html_url;
-  followers.textContent = `Followers: ${gitHubInfo.followers}`;
-  following.textContent = `Following: ${gitHubInfo.following}`;
-  bio.textContent = gitHubInfo.bio;
+  pLink.href = gitInfo.html_url;
+  followers.textContent = `Followers: ${gitInfo.followers}`;
+  following.textContent = `Following: ${gitInfo.following}`;
+  bio.textContent = gitInfo.bio;
+
+  card.appendChild(img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(pLink);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+  return card;
 }
 
 /*
