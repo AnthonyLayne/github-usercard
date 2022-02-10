@@ -4,12 +4,7 @@
     https://api.github.com/users/<your name>
 */
 import axios from "axios";
-axios
-  .get("https://api.github.com/users/AnthonyLayne")
-  .then((resp) => {
-    document.querySelector(".cards").appendChild(githubCard(resp.data));
-  })
-  .catch((err) => console.error(err));
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -34,16 +29,37 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "AnthonyLayne",
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell",
+];
+
+for (let i = 0; i < followersArray.length; i++) {
+  multiUser(followersArray[i]);
+}
+
+function multiUser(username) {
+  axios
+    .get(`https://api.github.com/users/${username}`)
+    .then((resp) => {
+      document.querySelector(".cards").appendChild(githubCard(resp.data));
+    })
+    .catch((err) => console.error(err));
+}
+
 function githubCard(gitInfo) {
   const card = document.createElement("div");
   const img = document.createElement("img");
   const cardInfo = document.createElement("div");
   const name = document.createElement("h3");
-  const username = document.createElement("p");
+  const userLogin = document.createElement("p");
   const location = document.createElement("p");
   const profile = document.createElement("p");
-  const profileLink = document.createElement("a");
+  const pLink = document.createElement("a");
   const followers = document.createElement("p");
   const following = document.createElement("p");
   const bio = document.createElement("p");
@@ -51,15 +67,15 @@ function githubCard(gitInfo) {
   card.classList.add("card");
   cardInfo.classList.add("card-info");
   name.classList.add("name");
-  username.classList.add("username");
+  userLogin.classList.add("username");
 
   img.src = gitInfo.avatar_url;
   name.textContent = gitInfo.name;
-  username.textContent = gitInfo.login;
+  userLogin.textContent = gitInfo.login;
   location.textContent = gitInfo.location;
   profile.textContent = "Profile";
-  profileLink.textContent = "Link to Profile";
-  profileLink.href = gitInfo.html_url;
+  pLink.textContent = "Link to Profile";
+  pLink.href = gitInfo.html_url;
   followers.textContent = `Followers: ${gitInfo.followers}`;
   following.textContent = `Following: ${gitInfo.following}`;
   bio.textContent = gitInfo.bio;
@@ -67,10 +83,10 @@ function githubCard(gitInfo) {
   card.appendChild(img);
   card.appendChild(cardInfo);
   cardInfo.appendChild(name);
-  cardInfo.appendChild(username);
+  cardInfo.appendChild(userLogin);
   cardInfo.appendChild(location);
   cardInfo.appendChild(profile);
-  profile.appendChild(profileLink);
+  profile.appendChild(pLink);
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
