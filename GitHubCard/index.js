@@ -35,6 +35,30 @@ axios
 */
 
 const followersArray = [];
+function githubCard(gitHubInfo) {
+  const card = document.createElement("div");
+  const img = document.createElement("img");
+  const info = document.createElement("div");
+  const name = document.createElement("h3");
+  const userName = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const pLink = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  img.src = gitHubInfo.avatar_url;
+  name.textContent = gitHubInfo.name;
+  userName.textContent = gitHubInfo.login;
+  location.textContent = gitHubInfo.location;
+  profile.textContent = "Profile";
+  pLink.textContent = "Link to Profile";
+  pLink.href = gitHubInfo.html_url;
+  followers.textContent = `Followers: ${gitHubInfo.followers}`;
+  following.textContent = `Following: ${gitHubInfo.following}`;
+  bio.textContent = gitHubInfo.bio;
+}
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
